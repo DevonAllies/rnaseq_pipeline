@@ -30,8 +30,17 @@ samples/*_{1,2}.fastq.gz
 ## Requirements
 
 - [Nextflow](https://www.nextflow.io/) >= 24.10
-- [Docker](https://www.docker.com/) (for local use)
 - Java 17+
+- The following tools installed and available on your PATH:
+  - [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
+  - [Trim Galore](https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/)
+  - [HISAT2](http://daehwankimlab.github.io/hisat2/)
+  - [SAMtools](http://www.htslib.org/)
+  - [StringTie](https://ccb.jhu.edu/software/stringtie/)
+  - [MultiQC](https://multiqc.info/)
+
+> **Docker support coming soon.** A `docker` profile will be added so tools
+> do not need to be installed manually.
 
 ---
 
@@ -139,9 +148,10 @@ for downstream differential expression analysis in R.
 
 | Profile | Description |
 |---|---|
-| `local` | Run on a local machine with Docker. CPUs: 4, Memory: 8GB |
+| `local` | Run on a local machine. Requires tools installed on PATH. CPUs: 4, Memory: 8GB |
 
 **Coming soon:**
+- `docker` -- Run with Docker containers, no manual tool installation needed
 - `chpc` -- CHPC/HPC cluster with Singularity
 - `cloud` -- Cloud execution with Docker
 
