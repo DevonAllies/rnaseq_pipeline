@@ -96,10 +96,10 @@ output {
         path 'stringtie/merged'
     }
     reestimate_gtf {
-        path 'stringtie/final'
+        path 'stringtie/final'; mode 'copy'
     }
     reestimate_ctab {
-        path 'stringtie/final'
+        path 'stringtie/final'; mode 'copy'
     }
     multiqc_report {
         path 'multiqc'
