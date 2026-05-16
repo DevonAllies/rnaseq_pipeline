@@ -1,0 +1,34 @@
+# Nextflow runtime
+work/
+results/
+.nextflow/
+.nextflow.log*
+
+# Reference and index data
+*.tar.gz
+*.fastq.gz
+*.fq.gz
+*.bam
+*.bai
+*.ht2
+*.dict
+*.fa
+*.fa.fai
+*.gtf.db
+
+# Folder contents (keep folders, ignore data files)
+genes/*.gtf
+samples/*.fastq.gz
+samples/*.fq.gz
+indexes/*.tar.gz
+indexes/*.ht2
+
+# Nextflow execution reports
+report.html
+trace.txt
+timeline.html
+dag.html
+
+# Tutorial data files not used by pipeline
+mergelist.txt
+geuvadis_phenodata.csv
