@@ -31,13 +31,14 @@ samples/*_{1,2}.fastq.gz
 
 - [Nextflow](https://www.nextflow.io/) >= 24.10
 - Java 17+
-- [Docker](https://www.docker.com/) (for `-profile docker`) **or** the following tools installed and available on your PATH (for `-profile local`):
   - [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
   - [Trim Galore](https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/)
   - [HISAT2](http://daehwankimlab.github.io/hisat2/)
   - [SAMtools](http://www.htslib.org/)
   - [StringTie](https://ccb.jhu.edu/software/stringtie/)
   - [MultiQC](https://multiqc.info/)
+  - [Docker](https://www.docker.com/) (for `-profile docker`) **or** the following tools installed and available on your PATH (for `-profile local`):
+  - [Singularity](https://sylabs.io/singularity/) (for `-profile singularity`) **or** the following tools installed and available on your PATH (for `-profile local`):
 
 ---
 
@@ -91,8 +92,12 @@ mv genome_index.tar.gz indexes/
 # With Docker (no tool installation required)
 nextflow run rnaseq.nf -profile docker
 
+# With Singularity (for HPC clusters)
+nextflow run rnaseq.nf -profile singularity
+
 # With tools installed locally
 nextflow run rnaseq.nf -profile local
+```
 ```
 
 ---
@@ -145,9 +150,8 @@ for downstream differential expression analysis in R.
 |---|---|
 | `local` | Run on a local machine. Requires tools installed on PATH. CPUs: 4, Memory: 8GB |
 | `docker` | Run with Docker containers. No manual tool installation needed. |
+| `singularity` | Run with Singularity containers. Designed for HPC clusters. |
 
-**Coming soon:**
-- `chpc` -- CHPC/HPC cluster with Singularity
 - `cloud` -- Cloud execution with Docker
 
 ---
