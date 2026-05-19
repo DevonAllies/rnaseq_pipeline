@@ -42,6 +42,16 @@ samples/*_{1,2}.fastq.gz
 
 ---
 
+### Operating System
+
+Nextflow requires a Unix-based operating system:
+
+| OS | Supported | Notes |
+|---|---|---|
+| Linux | Yes | Runs natively |
+| macOS | Yes | Runs natively |
+| Windows | Requires WSL2 | Install WSL2 + Ubuntu first |
+
 ## Quick Start
 
 ### 1. Clone the repository
@@ -51,53 +61,88 @@ git clone https://github.com/DevonAllies/rnaseq_pipeline.git
 cd rnaseq_pipeline
 ```
 
-### 2. Prepare your folder structure
+### 2. Prepare your input files
 
-Place your files in the following directories:
+#### Reads -- must be gzipped FASTQ
+
+> **Important:** Read files must be in `.fastq.gz` format (gzip compressed).
+> Uncompressed `.fastq` files will not be found by the pipeline.
+
+```bash
+# If your files are uncompressed, gzip them first
+gzip samples/sample1_1.fastq
+gzip samples/sample1_2.fastq
+
+# Or compress all at once
+gzip samples/*.fastq
+```
+
+Files must follow paired-end naming convention:
+
+```
+samples/
+├── sample1_1.fastq.gz      <-- read 1
+├── sample1_2.fastq.gz      <-- read 2
+├── sample2_1.fastq.gz
+└── sample2_2.fastq.gz
+```
+
+#### HISAT2 index -- must be a tar.gz archive
+
+> **Important:** The HISAT2 index must be packaged as a `.tar.gz` file.
+> Raw `.ht2` index files placed directly in the folder will not work.
+
+Build and package your index like this:
+
+```bash
+# Build the HISAT2 index
+hisat2-build genome.fa indexes/genome
+
+# Package it as a tar.gz
+tar -czf indexes/genome_index.tar.gz indexes/genome*.ht2
+
+# The pipeline extracts it automatically at runtime
+```
+
+The pipeline expects the index prefix to be `indexes/genome` inside the tar.
+This matches the default `params.hisat2_prefix = "indexes/genome"`.
+
+#### Reference GTF annotation
+
+Place your GTF file in the `genes/` folder:
+
+```
+genes/
+└── annotation.gtf
+```
+
+### 3. Final folder structure
 
 ```
 rnaseq_pipeline/
-├── samples/          <-- paired-end FASTQ files
-│   ├── sample1_1.fastq.gz
+├── samples/
+│   ├── sample1_1.fastq.gz      <-- gzipped paired-end reads
 │   ├── sample1_2.fastq.gz
 │   ├── sample2_1.fastq.gz
 │   └── sample2_2.fastq.gz
 │
-├── indexes/          <-- HISAT2 index tar.gz (see below)
-│   └── genome_index.tar.gz
+├── indexes/
+│   └── genome_index.tar.gz     <-- HISAT2 index as tar.gz
 │
-└── genes/            <-- Reference GTF annotation
-    └── annotation.gtf
-```
-
-### 3. Build your HISAT2 index
-
-The pipeline expects the index to be tarred with the prefix `indexes/genome`
-so it matches the default `params.hisat2_prefix`:
-
-```bash
-# Build the index
-hisat2-build genome.fa indexes/genome
-
-# Tar it up
-tar -czf genome_index.tar.gz indexes/
-
-# Move to the indexes folder
-mv genome_index.tar.gz indexes/
+└── genes/
+    └── annotation.gtf          <-- reference GTF annotation
 ```
 
 ### 4. Run the pipeline
 
 ```bash
-# With Docker (no tool installation required)
-nextflow run rnaseq.nf -profile docker
-
-# With Singularity (for HPC clusters)
-nextflow run rnaseq.nf -profile singularity
-
-# With tools installed locally
 nextflow run rnaseq.nf -profile local
 ```
+
+If your index prefix differs from `indexes/genome`, override it:
+
+```bash
+nextflow run rnaseq.nf -profile local --hisat2_prefix indexes/your_prefix
 ```
 
 ---
