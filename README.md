@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org)](https://doi.org)
+
 # Devon Allies -- RNA-seq Pipeline
 
 A modular, reproducible Nextflow DSL2 pipeline for paired-end RNA-seq analysis.
@@ -237,3 +239,8 @@ bg <- ballgown(
 
 Devon Allies
 [GitHub](https://github.com/DevonAllies)
+
+## Citation
+
+If you use this pipeline in your research, please cite it as:
+Devon Allies. (2026). DevonAllies/rnaseq_pipeline: V1.0.0.0. Zenodo. https://doi.or
